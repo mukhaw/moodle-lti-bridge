@@ -1,0 +1,63 @@
+{% load static %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+<html>
+<body>
+<div class="container" style="height: 600px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>LTI adaptivity</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-11">
+            <iframe
+                    id="activity"
+                    style="width:100%;height:100%;%;display:block;border:0;"
+                    title="Title"
+                    name="ltiFrame-1"
+                    src="{% url 'bridge:consumer' %}"
+                    allowfullscreen="true"
+                    webkitallowfullscreen="true"
+                    mozallowfullscreen="true"
+            >
+            </iframe>
+        </div>
+        <div class="col-md-1">
+            {% buttons %}
+                <button class="btn btn-primary" id="next" style="height: 90%;display: none">
+                    <span class="glyphicon glyphicon-step-forward"></span>
+                </button>
+            {% endbuttons %}
+        </div>
+    </div>
+</div>
+{% bootstrap_javascript jquery=True %}
+<script>
+    $('#next').click(function () {
+        console.log('next activity');
+
+        $('#next').hide();
+        $("#activity").attr("src", function (index, attr) {
+            return attr;
+        });
+        // Handler for "load" called.
+    });
+
+    var eventMethod = window.addEventListener
+			? "addEventListener"
+			: "attachEvent";
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod === "attachEvent"
+		? "onmessage"
+		: "message";
+
+	eventer(messageEvent, function (e) {
+		if (e.data === "activity_complete" || e.message === "activity_complete")
+		    $('#next').show();
+	});
+</script>
+
+</body>
+</html>

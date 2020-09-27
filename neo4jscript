@@ -1,0 +1,102 @@
+CREATE (n1:OPK {label: 'Способен разрабатывать алгоритмы и программы, пригодные для практического применения;'})
+CREATE (n2:Descriptor {label: 'Знает основы языка программирования Python', cyn: 'знает'})
+CREATE (n3:Descriptor {label: 'Умеет программировать на python на начальном уровне.', cyn: 'умеет'})
+CREATE (n4:Descriptor {label: 'Владеет навыками программирования на Python на начальном уровне.', cyn: 'владеет'})
+
+CREATE
+(n2)-[:sub_of]->(n1),
+(n3)-[:sub_of]->(n1),
+(n4)-[:sub_of]->(n1)
+
+CREATE (n5:SubDescriptor {label: 'Инструкции и синтаксис'})
+CREATE (n6:SubDescriptor {label: 'О языке'})
+CREATE (n7:SubDescriptor {label: 'Типы и операции'})
+
+CREATE
+(n5)-[:sub_of]->(n2),
+(n6)-[:sub_of]->(n2),
+(n7)-[:sub_of]->(n2)
+
+CREATE (n9:SubDescriptor {label: 'Знает основные алгоритмические конструкции (последовательностные).'})
+CREATE (n10:SubDescriptor {label: 'Знает создателя языка Python, краткую историю, текущее состояние, основные характеристики.'})
+CREATE (n11:SubDescriptor {label: 'Знает что такое переменная в языке Python, когда необходимо ее появление, что такое динамическая типизация.'})
+CREATE (n12:SubDescriptor {label: 'Знает правила построения имен идентификаторов.'})
+CREATE (n13:SubDescriptor {label: 'Знает что такое тип данных.'})
+CREATE (n14:SubDescriptor {label: 'Знает основные типы данных int, float, str.'})
+CREATE (n15:SubDescriptor {label: 'Знает основные операции над вещественными, строками, операции целочисленной арифметики.'})
+CREATE (n16:SubDescriptor {label: 'Знает приоритет операций.'})
+CREATE (n17:SubDescriptor {label: 'Знает функции стандартного ввода и вывода.'})
+
+CREATE
+(n9)-[:sub_of]->(n5),
+(n10)-[:sub_of]->(n6),
+(n11)-[:sub_of]->(n7),
+(n12)-[:sub_of]->(n7),
+(n13)-[:sub_of]->(n7),
+(n14)-[:sub_of]->(n7),
+(n15)-[:sub_of]->(n7),
+(n16)-[:sub_of]->(n7),
+(n17)-[:sub_of]->(n7)
+
+
+CREATE (n18:SubDescriptor {label: 'Инструкции и синтаксис'})
+CREATE (n19:SubDescriptor {label: 'Типы и операции'})
+CREATE (n20:SubDescriptor {label: 'Функции и модули'})
+CREATE (n21:SubDescriptor {label: 'Исключительные ситуации'})
+
+CREATE
+(n18)-[:sub_of]->(n3),
+(n19)-[:sub_of]->(n3),
+(n20)-[:sub_of]->(n3),
+(n21)-[:sub_of]->(n3)
+
+CREATE (n22:SubDescriptor {label: 'Умеет правильно записывать литералы целых чисел в 10-ой, 2-ой, 8-ой и 16-ой системах счисления, вещественных чисел и строк.'})
+CREATE (n23:SubDescriptor {label: 'Владеет навыком построения выражений на языке с операциями над целыми, действительными числами и строками, с учетом приоритета операции и преобразования типов.'})
+CREATE (n24:SubDescriptor {label: 'Умеет вводить данные с клавиатуры и выводить в консоль.'})
+CREATE (n25:SubDescriptor {label: 'Умеет составлять линейные алгоритмы.'})
+
+CREATE
+(n22)-[:sub_of]->(n19),
+(n23)-[:sub_of]->(n19),
+(n24)-[:sub_of]->(n19),
+(n25)-[:sub_of]->(n18)
+
+CREATE (taskSource:TaskSource {label: 'localhost', api_url: 'http://localhost:81/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: 'd7b61675a3b9debf464a3dc906648214', key: 'test'})
+
+CREATE (task1:Task {label: 'Базовые типы данных1', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=4', quiz_id: '3', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+CREATE (task2:Task {label: 'Базовые типы данных2', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=5', quiz_id: '4', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+CREATE (task3:Task {label: 'Базовые типы данных3', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=6', quiz_id: '5', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+CREATE (task4:Task {label: 'Базовые типы данных4', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=7', quiz_id: '6', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+CREATE (task5:Task {label: 'Базовые типы данных Informatics', launch_url: 'http://informatics.computermath.ru/enrol/lti/tool.php?id=5', quiz_id: '348', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+
+CREATE (task1)-[:develop {weight: 1}]->(n11)
+CREATE (task1)-[:develop {weight: 1}]->(n12)
+CREATE (task1)-[:develop {weight: 1}]->(n13)
+CREATE (task1)-[:develop {weight: 1}]->(n14)
+CREATE (task1)-[:develop {weight: 1}]->(n15)
+CREATE (task1)-[:develop {weight: 1}]->(n17)
+
+CREATE (task2)-[:develop {weight: 1}]->(n13)
+CREATE (task2)-[:develop {weight: 1}]->(n14)
+CREATE (task2)-[:develop {weight: 1}]->(n15)
+
+CREATE (task3)-[:develop {weight: 1}]->(n15)
+CREATE (task3)-[:develop {weight: 1}]->(n16)
+
+CREATE (task4)-[:develop {weight: 1}]->(n14)
+
+CREATE (taskSource)-[:contains]->(task1)
+CREATE (taskSource)-[:contains]->(task2)
+CREATE (taskSource)-[:contains]->(task3)
+CREATE (taskSource)-[:contains]->(task4)
+
+
+CREATE (topic1:Topic {label: 'Тест по LTI'})
+
+CREATE (topic1)-[:related]->(n11)
+CREATE (topic1)-[:related]->(n12)
+CREATE (topic1)-[:related]->(n13)
+CREATE (topic1)-[:related]->(n14)
+CREATE (topic1)-[:related]->(n15)
+CREATE (topic1)-[:related]->(n16)
+CREATE (topic1)-[:related]->(n17)

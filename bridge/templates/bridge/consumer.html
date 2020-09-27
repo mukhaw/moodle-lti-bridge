@@ -1,0 +1,57 @@
+{% load static %}
+{% load bootstrap3 %}
+<html>
+<head>
+    <title>Content source</title>
+</head>
+<body>
+
+
+<iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" width="100%" height="100%" name="dummyframe"
+        style="border: 0"
+        id="dummyframe"></iframe>
+
+
+<form action="{{ launch_url }}"
+      name="ltiLaunchForm"
+      id="ltiLaunchForm"
+      method="POST"
+      encType="application/x-www-form-urlencoded"
+      style="display:none;"
+      target="dummyframe"
+>
+    {% for key, value in launch_data.items %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}"/>
+    {% endfor %}
+    <button type="submit">Launch the tool</button>
+</form>
+
+{% bootstrap_javascript jquery=True %}
+<script>
+    (function ($) {
+        $(function () {
+            // LTI launch form auto-submission:
+            var $element = $("#ltiLaunchForm");
+            $("#progress").append("<p>Test<p>");
+            if ($element) {
+                $element.submit();
+            } else {
+                console.error("Launch form for content preview can't be found!");
+            }
+        });
+    }(jQuery));
+
+    $('#dummyframe').on('load', function () {
+        $.get("{{ grade_url }}", (data) => {
+            console.log('grade');
+            console.log(data);
+
+            if (typeof data.grade != "undefined") {
+                parent.postMessage("activity_complete", "*")
+            }
+        })
+    })
+</script>
+
+</body>
+</html>
