@@ -37,6 +37,9 @@ class Task(Model):
     sub_descriptor = RelatedTo("SubDescriptor", "develop")
     source = RelatedFrom("TaskSource", "contains")
 
+    def __hash__(self):
+        return int(self.quiz_id)
+
 
 class User(Model):
     __primarykey__ = "email"
@@ -83,7 +86,12 @@ def find_tasks(email, topic):
 
     tasks = flat_map(lambda x: x.tasks, topic.sub_descriptors)
 
-    return list(filter(lambda x: x not in user.did, tasks))
+    return set(filter(lambda x: x not in user.did, tasks))
+
+
+def find_target_descriptor(topic):
+    topic = Topic.match(graph, topic).first()
+    return list(filter(lambda x: topic.sub_descriptors.get(x, 'target') is True, topic.sub_descriptors))
 
 
 def flat_map(f, xs):

@@ -1,3 +1,3 @@
-from adaptive_engine.engine.SimpleEngine import SimpleEngine
+from adaptive_engine.engine.IRTEngine import IRTEngine
 
-engine = SimpleEngine()
+engine = IRTEngine()

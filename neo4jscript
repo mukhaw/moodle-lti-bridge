@@ -61,39 +61,22 @@ CREATE
 (n24)-[:sub_of]->(n19),
 (n25)-[:sub_of]->(n18)
 
-CREATE (taskSource:TaskSource {label: 'localhost', api_url: 'http://localhost:81/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: 'd7b61675a3b9debf464a3dc906648214', key: 'test'})
+CREATE (taskSource:TaskSource {label: 'localhost', api_url: 'http://localhost:81/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: 'f3b24c8d39c371add1e4c72a8deeaddf', key: 'test'})
 
-CREATE (task1:Task {label: 'Базовые типы данных1', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=4', quiz_id: '3', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
-CREATE (task2:Task {label: 'Базовые типы данных2', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=5', quiz_id: '4', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
-CREATE (task3:Task {label: 'Базовые типы данных3', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=6', quiz_id: '5', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
-CREATE (task4:Task {label: 'Базовые типы данных4', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=7', quiz_id: '6', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
-CREATE (task5:Task {label: 'Базовые типы данных Informatics', launch_url: 'http://informatics.computermath.ru/enrol/lti/tool.php?id=5', quiz_id: '348', secret: 'KZwmOdB1jU3TlTVGXYgGIaKhB03OqlP9'})
+CREATE (task1:Task {label: 'Базовые типы данных1', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=1', quiz_id: '1', secret: 'pH6EfyeA7UJHvpGl0vDsTM6ymbIk58JC'})
 
-CREATE (task1)-[:develop {weight: 1}]->(n11)
-CREATE (task1)-[:develop {weight: 1}]->(n12)
-CREATE (task1)-[:develop {weight: 1}]->(n13)
-CREATE (task1)-[:develop {weight: 1}]->(n14)
-CREATE (task1)-[:develop {weight: 1}]->(n15)
-CREATE (task1)-[:develop {weight: 1}]->(n17)
-
-CREATE (task2)-[:develop {weight: 1}]->(n13)
-CREATE (task2)-[:develop {weight: 1}]->(n14)
-CREATE (task2)-[:develop {weight: 1}]->(n15)
-
-CREATE (task3)-[:develop {weight: 1}]->(n15)
-CREATE (task3)-[:develop {weight: 1}]->(n16)
-
-CREATE (task4)-[:develop {weight: 1}]->(n14)
+CREATE (task1)-[:develop {a: 1.7, b: 1}]->(n11)
+CREATE (task1)-[:develop {a: 1.7, b: 1.5}]->(n12)
+CREATE (task1)-[:develop {a: 1.7, b: 1.5}]->(n13)
+CREATE (task1)-[:develop {a: 1.7, b: 1}]->(n14)
+CREATE (task1)-[:develop {a: 1.7, b: 2}]->(n15)
+CREATE (task1)-[:develop {a: 1.7, b: 3}]->(n17)
 
 CREATE (taskSource)-[:contains]->(task1)
-CREATE (taskSource)-[:contains]->(task2)
-CREATE (taskSource)-[:contains]->(task3)
-CREATE (taskSource)-[:contains]->(task4)
-
 
 CREATE (topic1:Topic {label: 'Тест по LTI'})
 
-CREATE (topic1)-[:related]->(n11)
+CREATE (topic1)-[:related {target: True}]->(n11)
 CREATE (topic1)-[:related]->(n12)
 CREATE (topic1)-[:related]->(n13)
 CREATE (topic1)-[:related]->(n14)

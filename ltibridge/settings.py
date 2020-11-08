@@ -35,7 +35,7 @@ host = "bolt://neo4j:test@localhost:7687"
 # host = "bolt://neo4j:test@neo4j:7687"
 graph = Graph(host)
 
-#Moodle
+# Moodle
 # token = 'aaea8dd196a2d639e1b1283a4dcfa2a4'
 # moodle_api_url = 'http://localhost:81/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}'
 
@@ -67,6 +67,14 @@ LTI_TOOL_CONFIGURATION = {
     'frame_height': 800,
     'custom_fields': {},
     'assignments': {}
+}
+
+PYLTI_CONFIG = {
+    'consumers': {
+        'test': {
+            'secret': 'test'
+        }
+    }
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"

@@ -10,14 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from lti import ToolConsumer
 
 from bridge import moodle_api, models, engine
-
-EMAIL = 'lis_person_contact_email_primary'
-
-LAST_NAME = 'lis_person_name_family'
-
-FIRST_NAME = 'lis_person_name_given'
-
-OUTCOME_URL = 'lis_outcome_service_url'
+from bridge.constants import *
 
 logger = logging.getLogger(__name__)
 
@@ -35,13 +28,12 @@ def provider(request):
         request.session['source_token'] = source.token
 
         if not internal_user:
-            user_data = {
+            models.create_user({
                 FIRST_NAME: request.POST[FIRST_NAME],
                 LAST_NAME: request.POST[LAST_NAME],
                 EMAIL: request.POST[EMAIL]
-            }
+            })
             request.session['user_id'] = None
-            models.create_user(user_data)
         else:
             request.session['user_id'] = internal_user['id']
 
@@ -49,16 +41,16 @@ def provider(request):
             FIRST_NAME: request.POST[FIRST_NAME],
             LAST_NAME: request.POST[LAST_NAME],
             EMAIL: request.POST[EMAIL],
-            'title': request.POST['resource_link_title']
+            TITLE: request.POST['resource_link_title']
         }
 
-        logger.info(urljoin(settings.BRIDGE_HOST, reverse('bridge:grade')))
-
+        grade_url = urljoin(settings.BRIDGE_HOST, reverse('bridge:grade'))
+        logger.debug(grade_url)
         return render(
             request,
             'bridge/provider.html',
             {
-                'grade_url': urljoin(settings.BRIDGE_HOST, reverse('bridge:grade'))
+                'grade_url': grade_url
             }
         )
     return HttpResponse('')
@@ -154,9 +146,9 @@ def get_activity(request):
 
 
 def get_current_task(user_data):
-    tasks = models.find_tasks(user_data[EMAIL], user_data['title'])
+    tasks = models.find_tasks(user_data[EMAIL], user_data[TITLE])
     return engine.select_activity(tasks, user_data=user_data)
 
 
 def show_progress(user_data):
-    return models.get_results(user_data[EMAIL], user_data['title'])
+    return models.get_results(user_data[EMAIL], user_data[TITLE])

@@ -11,7 +11,7 @@ import numpy as np
 # Perfect + infinity
 
 def P_two(thi, a, b):
-    return 1 / (1 + np.exp(-a * (thi - b)))
+    return np.exp(a * (thi - b)) / (1 + np.exp(a * (thi - b)))
 
 
 def I_two(thi, x):
@@ -82,8 +82,8 @@ while thi < 1.4 or error > 0.9:
     print('chosen item ' + str(i))
     plt.plot(x_axis, I_two(x_axis, i), label='2PL_I')
     plt.plot(x_axis, P_two(x_axis, i['a'], i['b']), label='2PL')
-    plt.plot(x_axis, P_one(x_axis, i['b']), label='Rasch')
-    plt.plot(x_axis, I_one(x_axis, i), label='Rasch_I')
+    # plt.plot(x_axis, P_one(x_axis, i['b']), label='Rasch')
+    # plt.plot(x_axis, I_one(x_axis, i), label='Rasch_I')
     answers.append(i)
     thi = thi_next(thi, answers)
     print('thi: ' + str(thi))
@@ -91,6 +91,7 @@ while thi < 1.4 or error > 0.9:
     plt.axvline(x=thi, label='thi_' + str(idx) + '_' + str(thi))
     error = square_error(answers)
     print('error: ' + str(error))
+    idx = idx + 1
 
 plt.xlabel('x')
 plt.xlim([-3, 3])
