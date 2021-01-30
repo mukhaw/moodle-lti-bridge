@@ -1,11 +1,15 @@
 version: '2'
 services:
 
-  #  lti_provider:
-  #    image: lti/lti-bridge
-  #    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-  #    ports:
-  #      - 8000:8000
+#  web:
+#    image: romankalganov1/lti-bridge
+#    command: sh -c "python manage.py migrate && gunicorn --certfile=/etc/certs/localhost.crt --keyfile=/etc/certs/localhost.key ltibridge.wsgi:application --bind 0.0.0.0:443"
+#    volumes:
+#      - ./config/config/certs/:/etc/certs
+#    environment:
+#      NEO4J_HOST: bolt://neo4j:test@neo4j:7687
+#    expose:
+#      - "443"
 
   neo4j:
     image: neo4j:4.0.3
@@ -35,8 +39,8 @@ services:
   moodle1:
     image: 'docker.io/bitnami/moodle:3-debian-10'
     ports:
-      - '81:8080'
-      - '444:8443'
+      - '82:8080'
+      - '445:8443'
     environment:
       - MOODLE_DATABASE_HOST=mariadb1
       - MOODLE_DATABASE_PORT_NUMBER=3306
@@ -60,8 +64,8 @@ services:
   moodle:
     image: 'docker.io/bitnami/moodle:3-debian-10'
     ports:
-      - '80:8080'
-      - '443:8443'
+      - '81:8080'
+      - '444:8443'
     environment:
       - MOODLE_DATABASE_HOST=mariadb
       - MOODLE_DATABASE_PORT_NUMBER=3306
@@ -73,6 +77,16 @@ services:
       - 'moodledata_data:/bitnami/moodledata'
     depends_on:
       - mariadb
+#  nginx:
+#    image: nginx:latest
+#    container_name: ng
+#    ports:
+#      - "443:443"
+#      - "80:80"
+#    volumes:
+#      - ./config/config/:/etc/nginx/conf.d
+#    depends_on:
+#      - web
 volumes:
   mariadb_data:
     driver: local

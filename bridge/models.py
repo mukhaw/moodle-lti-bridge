@@ -1,7 +1,10 @@
+import logging
+
 from py2neo.ogm import Model, Property, RelatedFrom, RelatedTo
 
 from ltibridge.settings import graph
 
+logger = logging.getLogger(__name__)
 
 class Topic(Model):
     __primarykey__ = "label"

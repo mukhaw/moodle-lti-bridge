@@ -1,16 +1,15 @@
 import logging
 import uuid
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urlparse
 
-from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from lti import ToolConsumer
 
 from bridge import moodle_api, models, engine
 from bridge.constants import *
+from ltibridge.settings import SERVER_URL
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +17,7 @@ logger = logging.getLogger(__name__)
 @csrf_exempt
 def provider(request):
     if request.method == 'POST':
-        logger.info(request.POST)
-        logger.info(urlparse(request.POST[OUTCOME_URL]).netloc)
-
+        logger.info('Incoming request from ' + urlparse(request.POST[OUTCOME_URL]).netloc)
         source = models.get_source(urlparse(request.POST[OUTCOME_URL]).netloc)
 
         internal_user = moodle_api.get_user(source.api_url, source.token, request.POST[EMAIL])
@@ -28,13 +25,16 @@ def provider(request):
         request.session['source_token'] = source.token
 
         if not internal_user:
-            models.create_user({
+            user_create_request = {
                 FIRST_NAME: request.POST[FIRST_NAME],
                 LAST_NAME: request.POST[LAST_NAME],
                 EMAIL: request.POST[EMAIL]
-            })
+            }
+            logger.info('User was not found in moodle create a new one' + str(user_create_request))
+            models.create_user(user_create_request)
             request.session['user_id'] = None
         else:
+            logger.info('User was found in moodle ' + str(internal_user))
             request.session['user_id'] = internal_user['id']
 
         request.session['user_data'] = {
@@ -44,13 +44,11 @@ def provider(request):
             TITLE: request.POST['resource_link_title']
         }
 
-        grade_url = urljoin(settings.BRIDGE_HOST, reverse('bridge:grade'))
-        logger.debug(grade_url)
         return render(
             request,
             'bridge/provider.html',
             {
-                'grade_url': grade_url
+                'grade_url': SERVER_URL + '/bridge/grade'
             }
         )
     return HttpResponse('')
@@ -98,10 +96,11 @@ def grade(request):
 
 
 def consumer(request):
-    try:
-        activity, quiz_id = get_activity(request)
-    except Exception:
-        return render(request, 'bridge/error.html')
+    # try:
+    activity, quiz_id = get_activity(request)
+    # except Exception as e:
+    #     print(e)
+    #     return render(request, 'bridge/error.html')
 
     if not activity:
         return render(request, 'bridge/provider_finish.html')
@@ -114,7 +113,7 @@ def consumer(request):
         {
             'launch_data': activity.generate_launch_data(),
             'launch_url': activity.launch_url,
-            'grade_url': urljoin(settings.BRIDGE_HOST, reverse('bridge:grade'))
+            'grade_url': SERVER_URL + '/bridge/grade'
         }
     )
 
@@ -127,7 +126,7 @@ def get_activity(request):
         return None, None
 
     request.session['task_label'] = task.label
-    print(task.launch_url)
+    logger.info('Launch url for current task ' + task.launch_url)
     return ToolConsumer(
         consumer_key=list(task.source)[0].key,
         launch_url=task.launch_url,
@@ -146,6 +145,17 @@ def get_activity(request):
 
 
 def get_current_task(user_data):
+    if not models.get_user(user_data[EMAIL]):
+        logger.error('User was not found in graph')
+        # TODO Try to sync user in mooodle and model
+        logger.info('Try to create a User ' + user_data)
+        user_create_request = {
+            FIRST_NAME: user_data[FIRST_NAME],
+            LAST_NAME: user_data[LAST_NAME],
+            EMAIL: user_data[EMAIL]
+        }
+        models.create_user(user_create_request)
+
     tasks = models.find_tasks(user_data[EMAIL], user_data[TITLE])
     return engine.select_activity(tasks, user_data=user_data)
 

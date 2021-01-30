@@ -13,7 +13,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.core.exceptions import ImproperlyConfigured
 from py2neo import Graph
+
+
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,12 +36,11 @@ SECRET_KEY = '6swf*p1h--m@k)4t^vrg1heonaca1u9ntw$w8vtdrehs8936#e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Temporary solution due to integration via ip address instead of domain name and https
+SERVER_URL = get_env_value('SERVER_URL')
 
-#Neo4J
-
-BRIDGE_HOST = 'http://localhost:8000'
-
-host = "bolt://neo4j:test@localhost:7687"
+# Neo4J
+host = get_env_value('NEO4J_HOST')
 # host = "bolt://neo4j:test@neo4j:7687"
 graph = Graph(host)
 
@@ -39,11 +48,13 @@ graph = Graph(host)
 # token = 'aaea8dd196a2d639e1b1283a4dcfa2a4'
 # moodle_api_url = 'http://localhost:81/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}'
 
-#Informatics
+# Informatics
 # token = 'aaea8dd196a2d639e1b1283a4dcfa2a4'
 # moodle_api_url = 'http://informatics.computermath.ru/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}'
 
-X_FRAME_OPTIONS = "ALLOW-FROM http://informatics.computermath.ru/"
+# X_FRAME_OPTIONS = "ALLOW-FROM localhost"
+
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 ALLOWED_HOSTS = ['*']
 
@@ -115,8 +126,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware'
 ]
 
 ROOT_URLCONF = 'ltibridge.urls'

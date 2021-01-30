@@ -61,11 +61,10 @@ CREATE
 (n24)-[:sub_of]->(n19),
 (n25)-[:sub_of]->(n18)
 
-CREATE (taskSource:TaskSource {label: 'localhost', api_url: 'http://moodle1:8080/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: 'f3b24c8d39c371add1e4c72a8deeaddf', key: 'test'})
+CREATE (taskSource:TaskSource {label: 'computermath.ru', api_url: 'http://moodle:8080/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: '7be25066e116fb2a4cf12d9441f2675c', key: 'test'})
+CREATE (taskSourceLocal:TaskSource {label: 'localhost:81', api_url: 'http://moodle:8080/webservice/rest/server.php?moodlewsrestformat=json&wstoken={0}&wsfunction={1}', token: '7be25066e116fb2a4cf12d9441f2675c', key: 'test'})
 
-CREATE (task1:Task {label: 'Code', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=5', quiz_id: '4', secret: 'pH6EfyeA7UJHvpGl0vDsTM6ymbIk58JC'})
-CREATE (task2:Task {label: 'True and False', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=4', quiz_id: '3', secret: 'pH6EfyeA7UJHvpGl0vDsTM6ymbIk58JC'})
-CREATE (task3:Task {label: 'Скобки', launch_url: 'http://localhost:81/enrol/lti/tool.php?id=3', quiz_id: '2', secret: 'pH6EfyeA7UJHvpGl0vDsTM6ymbIk58JC'})
+CREATE (task1:Task {label: 'True', launch_url: 'https://194.85.169.105:80/enrol/lti/tool.php?id=1', quiz_id: '1', secret: '3kyGn0yqqH9UsjqzM71kfj1Bm3niApJR'})
 
 CREATE (task1)-[:develop {a: 1.7, b: 3}]->(n11)
 CREATE (task1)-[:develop {a: 1.7, b: 1.5}]->(n12)
@@ -74,20 +73,8 @@ CREATE (task1)-[:develop {a: 1.7, b: 1}]->(n14)
 CREATE (task1)-[:develop {a: 1.7, b: 2}]->(n15)
 CREATE (task1)-[:develop {a: 1.7, b: 3}]->(n17)
 
-CREATE (task2)-[:develop {a: 1.7, b: 1.5}]->(n11)
-CREATE (task2)-[:develop {a: 1.7, b: 1}]->(n14)
-CREATE (task2)-[:develop {a: 1.7, b: 2}]->(n15)
-CREATE (task2)-[:develop {a: 1.7, b: 2}]->(n17)
-
-CREATE (task3)-[:develop {a: 1.7, b: 1}]->(n11)
-CREATE (task3)-[:develop {a: 1.7, b: 3}]->(n14)
-CREATE (task3)-[:develop {a: 1.7, b: 3}]->(n15)
-CREATE (task3)-[:develop {a: 1.7, b: 3}]->(n17)
-
-
 CREATE (taskSource)-[:contains]->(task1)
-CREATE (taskSource)-[:contains]->(task2)
-CREATE (taskSource)-[:contains]->(task3)
+CREATE (taskSourceLocal)-[:contains]->(task1)
 
 CREATE (topic1:Topic {label: 'Тест по LTI'})
 
