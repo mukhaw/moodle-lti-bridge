@@ -11,47 +11,47 @@ services:
 #    expose:
 #      - "443"
 
-  neo4j:
-    image: neo4j:4.0.3
-    hostname: neo4j
-    container_name: neo4j
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    volumes:
-      - ./neo4j/plugins:/plugins
-      - ./neo4j/data:/data
-    environment:
-      NEO4J_AUTH: neo4j/test
-      NEO4J_dbms_logs_debug_level: DEBUG
+#  neo4j:
+#    image: neo4j:4.0.3
+#    hostname: neo4j
+#    container_name: neo4j
+#    ports:
+#      - "7474:7474"
+#      - "7687:7687"
+#    volumes:
+#      - ./neo4j/plugins:/plugins
+#      - ./neo4j/data:/data
+#    environment:
+#      NEO4J_AUTH: neo4j/test
+#      NEO4J_dbms_logs_debug_level: DEBUG
 
-  mariadb1:
-    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
-    ports:
-      - "3306:3306"
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_moodle
-      - MARIADB_DATABASE=bitnami_moodle
-    volumes:
-      - 'mariadb_data1:/bitnami/mariadb'
+#  mariadb1:
+#    image: 'docker.io/bitnami/mariadb:10.3-debian-10'
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      - ALLOW_EMPTY_PASSWORD=yes
+#      - MARIADB_USER=bn_moodle
+#      - MARIADB_DATABASE=bitnami_moodle
+#    volumes:
+#      - 'mariadb_data1:/bitnami/mariadb'
 
-  moodle1:
-    image: 'docker.io/bitnami/moodle:3-debian-10'
-    ports:
-      - '82:8080'
-      - '445:8443'
-    environment:
-      - MOODLE_DATABASE_HOST=mariadb1
-      - MOODLE_DATABASE_PORT_NUMBER=3306
-      - MOODLE_DATABASE_USER=bn_moodle
-      - MOODLE_DATABASE_NAME=bitnami_moodle
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - 'moodle_data1:/bitnami/moodle'
-      - 'moodledata_data1:/bitnami/moodledata'
-    depends_on:
-      - mariadb1
+#  moodle1:
+#    image: 'docker.io/bitnami/moodle:3-debian-10'
+#    ports:
+#      - '82:8080'
+#      - '445:8443'
+#    environment:
+#      - MOODLE_DATABASE_HOST=mariadb1
+#      - MOODLE_DATABASE_PORT_NUMBER=3306
+#      - MOODLE_DATABASE_USER=bn_moodle
+#      - MOODLE_DATABASE_NAME=bitnami_moodle
+#      - ALLOW_EMPTY_PASSWORD=yes
+#    volumes:
+#      - 'moodle_data1:/bitnami/moodle'
+#      - 'moodledata_data1:/bitnami/moodledata'
+#    depends_on:
+#      - mariadb1
 
   mariadb:
     image: 'docker.io/bitnami/mariadb:10.3-debian-10'

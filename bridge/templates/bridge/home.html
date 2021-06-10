@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Website Layout</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  background-color:#F0E68C;
+}
+
+/* Style the header */
+.header {
+  background-color: #f1f221;
+  padding: 20px;
+  text-align: center;
+}
+.progress{
+    position: relative;
+    height: 600px;
+  width: 70%;
+    bottom: 30%;
+  margin: 0 auto;
+  padding: 20px;
+
+  overflow: auto;
+    background-color: #556B2F;
+    border-radius:15px;
+    text-align: center;
+
+  }
+.graph {
+  background: antiquewhite;
+  color: white;
+  width: 500px;
+  height:400px;
+  margin: -70px 100 10 0px;
+  position: absolute;
+  top: 30%;
+  left: 55%;
+  padding: 20px;
+    border-radius: 15px;
+}
+
+.chart {
+  background: antiquewhite;
+  color: black;
+  width: 500px;
+  height: 400px;
+  margin: -70px 100 10 0px;
+  position: absolute;
+  top: 30%;
+  right: 55%;
+  padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+.graph h1{
+    background: #666666;
+    border-radius: 15px;
+    color: black;
+}
+.chart h1{
+    background: #666666;
+    border-radius: 15px;
+    color: black;
+}
+.graph p{
+    background: #666666;
+    border-radius: 15px;
+    color: black;
+    height: 200px;
+    text-align: justify;
+
+}
+.chart p{
+    background: #666666;
+    border-radius: 15px;
+    color: black;
+    text-align: justify;
+    height: 200px;
+
+}
+
+.btn {
+    display: inline-block; /* Строчно-блочный элемент */
+    background: #8C959D;
+    width: 150px;
+    height: 20px;
+   position: absolute;
+   top: 70%;
+   left: 60%;
+   padding: 20px;
+    border-radius: 15px;;/* Серый цвет фона */
+    color: #000; /* Белый цвет текста */ /* Поля вокруг текста */
+    text-decoration: none; /* Убираем подчёркивание */
+     text-align: center;
+
+   }
+
+</style>
+</head>
+<body>
+
+<div class="progress">
+  <h1>Ваш прогресс по курсу</h1>
+  <div class="graph">
+      <h1>Граф</h1>
+      <p>
+         <br><br><br>Здесь вы можете узнать сколько заданий вы уже сделали. Чтобы узнать свои результаты вам нужно перейти по кнопке "Перейти к графу".
+          После перед вами откроется страница с фашим деревом прогресса, где результат конркетного задания вы увидите, нажав на узел графа.
+      <a href="http://127.0.0.1:8000/bridge/test_tree" class="btn">Перейти к графу</a>
+
+      </p>
+
+  </div>
+    <div class="chart">
+        <h1>Компетенции</h1>
+        <p><br><br><br>Здесь вы можете узнать, какие компетенции уже освоили и насколько. Перейдите на страницу с компетенциями по кнопке "Перейти к компетенциям".
+            Наведите курсор на кольцо диаграммы и вы увидите название компетенции и насколько важна она была в освоении дисциплины.
+        <a href="http://127.0.0.1:8000/bridge/sunburst" class="btn">Перейти к компетенциям</a></p>
+  </div>
+</div>
+
+</body>
+</html>

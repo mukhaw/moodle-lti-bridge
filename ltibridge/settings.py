@@ -37,10 +37,10 @@ SECRET_KEY = '6swf*p1h--m@k)4t^vrg1heonaca1u9ntw$w8vtdrehs8936#e'
 DEBUG = True
 
 # Temporary solution due to integration via ip address instead of domain name and https
-SERVER_URL = get_env_value('SERVER_URL')
+SERVER_URL = 'http://localhost:8000'
 
 # Neo4J
-host = get_env_value('NEO4J_HOST')
+host = "bolt://neo4j:1234@localhost:11005"
 # host = "bolt://neo4j:test@neo4j:7687"
 graph = Graph(host)
 
@@ -103,7 +103,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'lti_provider',
-    'adaptive_engine'
+    'adaptive_engine',
+    'results_visualisation'
 ]
 
 LOGGING = {

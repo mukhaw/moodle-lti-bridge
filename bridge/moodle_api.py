@@ -52,4 +52,5 @@ def get_user(api_url, token, email):
 def moodle_function(api_url, token, function, data):
     logger.info(data)
     logger.info(api_url)
-    return requests.post(api_url.format(token, function), data=data).json()
+
+    return requests.post(api_url.format(token, function), data=data,verify = False).json()

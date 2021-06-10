@@ -1,0 +1,63 @@
+{% load static %}
+{% load bootstrap3 %}
+<html>
+<head>
+    <title>Content source</title>
+</head>
+<body>
+
+
+<iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" name="dummyframe"
+        id="dummyframe"></iframe>
+
+
+<form action="{{ launch_url }}"
+      name="ltiLaunchForm"
+      id="ltiLaunchForm"
+      method="POST"
+      encType="application/x-www-form-urlencoded"
+      style="display:none;"
+      target="dummyframe"
+>
+    {% for key, value in launch_data.items %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}"/>
+    {% endfor %}
+    <button type="submit">Launch the tool</button>
+</form>
+<div class="col-md-1">
+            {% buttons %}
+                <button class="btn btn-primary" id="next" style="height: 90%;">
+
+                 <a href="http://127.0.0.1:8000/bridge/test_tree" class="btn">Перейти к графу</a>
+                </button>
+            {% endbuttons %}
+        </div>
+{% bootstrap_javascript jquery=True %}
+<script>
+    (function ($) {
+        let isLoaded = 0;
+        $(function () {
+            $('#dummyframe').hide()
+            // LTI launch form auto-submission:
+            const $element = $("#ltiLaunchForm");
+            if ($element) {
+                $element.submit();
+            } else {
+                console.error("Launch form for content preview can't be found!");
+            }
+        });
+        $('#dummyframe').on('load', function () {
+            if (isLoaded === 0) {
+                const iframe = document.getElementById('dummyframe');
+                iframe.src = "{{ review_url }}"
+            }
+            if (isLoaded === 1) {
+                $('#dummyframe').show()
+            }
+            isLoaded++
+        })
+    }(jQuery));
+</script>
+
+</body>
+</html>

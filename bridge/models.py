@@ -90,6 +90,17 @@ def find_tasks(email, topic):
     tasks = flat_map(lambda x: x.tasks, topic.sub_descriptors)
 
     return set(filter(lambda x: x not in user.did, tasks))
+def find_done_tasks(email, topic):
+    user = User.match(graph, email).first()
+
+    topic = Topic.match(graph, topic).first()
+
+    if not topic:
+        return None
+
+    tasks = flat_map(lambda x: x.tasks, topic.sub_descriptors)
+
+    return set(filter(lambda x: x in user.did, tasks))
 
 
 def find_target_descriptor(topic):
